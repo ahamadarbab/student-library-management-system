@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity    // it represents that this class is entity or model class which is directly creating the database table
 @Table(name = "card")     // it will create a table inside database
@@ -40,4 +41,13 @@ public class Card {
     @Column(name = "max_books_allowed", nullable = false)
     private int maxBooksAllowed;
 
+    @JoinColumn    // it joins the primary key(student id) of student table as a foreign key in card table
+    @OneToOne    // one card will be assigned to one student
+    private Student student;
+
+    @OneToMany(mappedBy = "card")
+    private List<Book> bookList;
+
+    @OneToMany(mappedBy = "card")
+    private List<Transaction> transactionList;
 }

@@ -4,6 +4,8 @@ import com.example.student_library_management_system.enums.BookCategory;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity    // it represents that this class is entity or model class which is directly creating the database table
 @Table(name = "book")    // it will create a table inside database
 @Data    // it will add getters and setters
@@ -41,4 +43,11 @@ public class Book {
 
     @Column(name = "available_copies", nullable = false)
     private int availableCopies;
+
+    @JoinColumn
+    @ManyToOne
+    private Card card;
+
+    @OneToMany(mappedBy = "book")
+    private List<Transaction> transactionList;
 }

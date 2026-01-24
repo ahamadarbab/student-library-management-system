@@ -44,5 +44,6 @@ public class Student {
     @Column(name = "dept", nullable = false)
     private String dept;
 
-
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
+    private Card card;
 }
