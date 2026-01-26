@@ -6,6 +6,7 @@ import com.example.student_library_management_system.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 @RestController
@@ -22,14 +23,25 @@ public class StudentController {
     }
 
     @GetMapping("/findById/{id}")
-    public Student findStudentById(@PathVariable int id) {
-        Student student = studentService.findStudentById(id);
-        return student;
+    public Object findStudentById(@PathVariable int id) {
+        try {
+            Student student = studentService.findStudentById(id);
+            return student;
+        } catch (Exception e) {
+            System.out.println("Exception occurred : " + e.getMessage() + "----" + e.getClass());
+            return "Exception occurred : " + e.getMessage() + "----" + e.getClass();
+        }
     }
 
     @GetMapping("/findAll")
     public List<Student> findAllStudent() {
         List<Student> studentList = studentService.findAllStudents();
+        return studentList;
+    }
+
+    @GetMapping("/findByPage")
+    public List<Student> findStudentByPage(@RequestParam int pageNo, @RequestParam int pageSize) {
+        List<Student> studentList = studentService.findStudentByPage(pageNo, pageSize);
         return studentList;
     }
 
@@ -49,6 +61,18 @@ public class StudentController {
     public String updateStudentUsingPut(@PathVariable int id, @RequestBody StudentRequestDto studentRequestDto) {
         String response = studentService.updateStudentUsingPut(id, studentRequestDto);
         return response;
+    }
+
+    @GetMapping("/findByEmail")
+    public Student findStudentByEmail(@RequestParam String email) {
+        Student student = studentService.findStudentByEmail(email);
+        return student;
+    }
+
+    @GetMapping("/findByDept")
+    public List<Student> findStudentByDept(@RequestParam String dept) {
+        List<Student> studentList = studentService.findStudentByDept(dept);
+        return studentList;
     }
 
 }

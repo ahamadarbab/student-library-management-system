@@ -6,6 +6,8 @@ import com.example.student_library_management_system.model.Student;
 import com.example.student_library_management_system.repository.StudentRepository;
 import com.example.student_library_management_system.requestdto.StudentRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -52,13 +54,25 @@ public class StudentService {
         }
         else
         {
-            return null;
+            throw new RuntimeException("Student not found with id: " + id);
         }
     }
 
     public List<Student> findAllStudents() {
         List<Student> studentList = studentRepository.findAll();
         return studentList;
+    }
+
+    // only pagination
+//    public List<Student> findStudentByPage(int pageNo, int pageSize) {
+//        List<Student> studentList = studentRepository.findAll(PageRequest.of(pageNo, pageSize)).getContent();
+//        return studentList;
+//    }
+
+    // pagination and sorting by name
+    public List<Student> findStudentByPage(int pageNo, int pageSize) {
+       List<Student> studentList = studentRepository.findAll(PageRequest.of(pageNo, pageSize, Sort.by("studentName"))).getContent();
+       return studentList;
     }
 
     public String countStudent() {
@@ -101,6 +115,23 @@ public class StudentService {
         {
             return "Student with id: " + id + " is not present, hence cannot update";
         }
+    }
+
+    public Student findStudentByEmail(String email) {
+        Student student = studentRepository.findStudentByEmail(email);
+        if(student != null)
+        {
+            return student;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public List<Student> findStudentByDept(String dept) {
+        List<Student> studentList = studentRepository.findStudentByDept(dept);
+        return studentList;
     }
 
 }
