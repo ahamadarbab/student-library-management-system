@@ -1,14 +1,13 @@
 package com.example.student_library_management_system.model;
 
 import com.example.student_library_management_system.enums.BookCategory;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.util.List;
 
 @Entity    // it represents that this class is entity or model class which is directly creating the database table
 @Table(name = "book")    // it will create a table inside database
-@Data    // it will add getters and setters
 public class Book {
 
     @Id    // it is the primary key of the table - it will be unique and it is not null
@@ -44,10 +43,108 @@ public class Book {
     @Column(name = "available_copies", nullable = false)
     private int availableCopies;
 
+    @JsonBackReference
     @JoinColumn
     @ManyToOne
     private Card card;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "book")
     private List<Transaction> transactionList;
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
+    public int getAvailableCopies() {
+        return availableCopies;
+    }
+
+    public void setAvailableCopies(int availableCopies) {
+        this.availableCopies = availableCopies;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getPublisherName() {
+        return publisherName;
+    }
+
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
+    }
+
+    public String getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(String publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public BookCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(BookCategory category) {
+        this.category = category;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public String getRackNo() {
+        return rackNo;
+    }
+
+    public void setRackNo(String rackNo) {
+        this.rackNo = rackNo;
+    }
+
+    public int getTotalCopies() {
+        return totalCopies;
+    }
+
+    public void setTotalCopies(int totalCopies) {
+        this.totalCopies = totalCopies;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
+    }
 }
